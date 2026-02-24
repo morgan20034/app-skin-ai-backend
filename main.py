@@ -24,16 +24,17 @@ app.add_middleware(
 )
 
 # -----------------------------
-# PATH
+# PATH (แก้ให้ใช้ models อย่างเดียว)
 # -----------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 MODEL_DIR = os.path.join(BASE_DIR, "models")
-CONSTANTS_DIR = os.path.join(BASE_DIR, "constants")
 
 SCHEMA_PATH = os.path.join(MODEL_DIR, "symptom_schema.json")
 CLASSES_PATH = os.path.join(MODEL_DIR, "classes.json")
-DISEASES_PATH = os.path.join(CONSTANTS_DIR, "diseases.json")
+DISEASES_PATH = os.path.join(MODEL_DIR, "diseases.json")
+
+IMAGE_MODEL_PATH = os.path.join(MODEL_DIR, "best_model.h5")
+SYMPTOM_MODEL_PATH = os.path.join(MODEL_DIR, "checkbox_model_10class.h5")
 
 # -----------------------------
 # GLOBAL VARIABLES
@@ -51,34 +52,41 @@ diseases_data = {}
 def load_models():
     global image_model, symptom_model, image_class_names, diseases_data
 
-    print("🚀 Loading models... This may take 20-40 seconds")
+    print("🚀 Loading models... (Railway)")
 
-    image_model_path = os.path.join(MODEL_DIR, "best_model.h5")
-    symptom_model_path = os.path.join(MODEL_DIR, "checkbox_model_10class.h5")
+    # ตรวจสอบไฟล์ก่อนโหลด
+    required_files = [
+        IMAGE_MODEL_PATH,
+        SYMPTOM_MODEL_PATH,
+        CLASSES_PATH,
+        DISEASES_PATH,
+        SCHEMA_PATH
+    ]
 
-    if not os.path.exists(image_model_path):
-        raise RuntimeError("Image model not found")
+    for file in required_files:
+        if not os.path.exists(file):
+            raise RuntimeError(f"❌ Missing file: {file}")
 
-    if not os.path.exists(symptom_model_path):
-        raise RuntimeError("Symptom model not found")
-
+    # โหลดโมเดล
     image_model = tf.keras.models.load_model(
-        image_model_path,
+        IMAGE_MODEL_PATH,
         compile=False
     )
 
     symptom_model = tf.keras.models.load_model(
-        symptom_model_path,
+        SYMPTOM_MODEL_PATH,
         compile=False
     )
 
+    # โหลด classes
     with open(CLASSES_PATH, "r", encoding="utf-8") as f:
         classes_config = json.load(f)
 
-    with open(DISEASES_PATH, "r", encoding="utf-8") as f:
-        diseases_data = json.load(f)
-
     image_class_names = classes_config["image_model"]["class_names"]
+
+    # โหลด diseases
+    with open(DISEASES_PATH, "r", encoding="utf-8") as f:
+        diseases_data.update(json.load(f))
 
     print("✅ Models loaded successfully")
 
@@ -103,18 +111,14 @@ async def predict(
     try:
         print("📥 Request received")
 
-        # -------------------------
         # อ่านรูป
-        # -------------------------
         image_bytes = await image.read()
         image_tensor = preprocess_image(image_bytes)
 
         image_probs = image_model.predict(image_tensor, verbose=0)
         image_probs = np.squeeze(image_probs)
 
-        # -------------------------
         # parse symptoms
-        # -------------------------
         selected_symptoms = []
         selected_areas = []
 
@@ -132,27 +136,21 @@ async def predict(
 
         print("Symptoms:", selected_symptoms)
 
-        # ------------------------------------------------
-        # RULE 1: ต้องเลือก symptom เท่านั้น
-        # ------------------------------------------------
+        # RULE 1: ไม่เลือก symptom
         if len(selected_symptoms) == 0:
             return {
                 "status": "unknown",
                 "disease": diseases_data["unknown"]
             }
 
-        # ------------------------------------------------
-        # RULE 2: เลือก symptom มั่ว (เยอะเกิน)
-        # ------------------------------------------------
+        # RULE 2: เลือกมั่วเยอะเกิน
         if len(selected_symptoms) >= 8:
             return {
                 "status": "unknown",
                 "disease": diseases_data["unknown"]
             }
 
-        # ------------------------------------------------
         # encode symptom
-        # ------------------------------------------------
         symptom_tensor = encode_symptoms(
             selected_symptoms,
             selected_areas,
@@ -162,9 +160,7 @@ async def predict(
         symptom_probs = symptom_model.predict(symptom_tensor, verbose=0)
         symptom_probs = np.squeeze(symptom_probs)
 
-        # ------------------------------------------------
         # fusion
-        # ------------------------------------------------
         fused_probs = fuse_predictions(
             image_pred=image_probs,
             symptom_pred=symptom_probs
@@ -182,18 +178,14 @@ async def predict(
 
         print("Final:", predicted_class, top_score)
 
-        # ------------------------------------------------
         # confidence ต่ำ
-        # ------------------------------------------------
         if top_score < 0.50:
             return {
                 "status": "unknown",
                 "disease": diseases_data["unknown"]
             }
 
-        # ------------------------------------------------
         # normal skin
-        # ------------------------------------------------
         if predicted_class == "normal_skin":
             return {
                 "status": "normal",
@@ -201,9 +193,6 @@ async def predict(
                 "confidence": top_score
             }
 
-        # ------------------------------------------------
-        # success
-        # ------------------------------------------------
         return {
             "status": "success",
             "disease": diseases_data.get(predicted_class, diseases_data["unknown"]),
