@@ -1,0 +1,61 @@
+{
+  "model_name": "Clinical Checkbox Model",
+  "model_file": "checkbox_model_10class.h5",
+  "num_features": 37,
+
+  "symptoms": [
+    { "key": "papule", "label_th": "ตุ่มนูน" },
+    { "key": "pustule", "label_th": "ตุ่มหนอง" },
+    { "key": "vesicle", "label_th": "ตุ่มน้ำใส" },
+    { "key": "swelling", "label_th": "บวม" },
+    { "key": "redness", "label_th": "แดง" },
+    { "key": "scaling", "label_th": "ผิวลอก" },
+    { "key": "dry_crack", "label_th": "ผิวแตกแห้ง" },
+    { "key": "scab", "label_th": "สะเก็ด" },
+    { "key": "itching", "label_th": "คัน" },
+    { "key": "severe_itching", "label_th": "คันรุนแรง" },
+    { "key": "pain", "label_th": "ปวด" },
+    { "key": "burning", "label_th": "แสบร้อน" },
+    { "key": "warm_red", "label_th": "แดงร้อน" },
+    { "key": "oozing", "label_th": "มีน้ำเหลือง" },
+    { "key": "grouped", "label_th": "เป็นกลุ่ม" },
+    { "key": "ring_shape", "label_th": "เป็นวง" },
+    { "key": "linear", "label_th": "เป็นแนวเส้น" },
+    { "key": "rapid_spread", "label_th": "ลามเร็ว" },
+    { "key": "dark_patch", "label_th": "รอยดำ" }
+  ],
+
+  "areas": [
+    { "key": "face", "label_th": "ใบหน้า" },
+    { "key": "forehead", "label_th": "หน้าผาก" },
+    { "key": "cheek", "label_th": "แก้ม" },
+    { "key": "around_mouth", "label_th": "รอบปาก" },
+    { "key": "neck", "label_th": "คอ" },
+    { "key": "scalp", "label_th": "หนังศีรษะ" },
+    { "key": "chest", "label_th": "หน้าอก" },
+    { "key": "back", "label_th": "หลัง" },
+    { "key": "axilla", "label_th": "รักแร้" },
+    { "key": "groin", "label_th": "ขาหนีบ" },
+    { "key": "arm_upper", "label_th": "ต้นแขน" },
+    { "key": "arm_lower", "label_th": "ปลายแขน" },
+    { "key": "hand", "label_th": "มือ" },
+    { "key": "leg_lower", "label_th": "ขาส่วนล่าง" },
+    { "key": "foot", "label_th": "เท้า" },
+    { "key": "toe", "label_th": "นิ้วเท้า" },
+    { "key": "trunk_side", "label_th": "ลำตัวด้านข้าง" },
+    { "key": "nerve_line", "label_th": "แนวเส้นประสาท" }
+  ],
+
+  "classes": [
+    "abscess",
+    "acne",
+    "eczema",
+    "herpes",
+    "melanoma",
+    "melasma",
+    "psoriasis",
+    "ringworm",
+    "shingles",
+    "vitiligo"
+  ]
+}

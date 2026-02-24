@@ -1,0 +1,65 @@
+{
+  "model_name": "EfficientNet-B0",
+  "model_file": "best_model.h5",
+  "input_size": [224, 224],
+  "channels": 3,
+  "preprocess": "efficientnet",
+  "num_classes": 11,
+  "classes": [
+    {
+      "index": 0,
+      "name": "abscess",
+      "display_th": "ฝี"
+    },
+    {
+      "index": 1,
+      "name": "acne",
+      "display_th": "สิว"
+    },
+    {
+      "index": 2,
+      "name": "eczema",
+      "display_th": "ผื่นภูมิแพ้ผิวหนัง"
+    },
+    {
+      "index": 3,
+      "name": "herpes",
+      "display_th": "เริม"
+    },
+    {
+      "index": 4,
+      "name": "melanoma",
+      "display_th": "มะเร็งผิวหนังเมลาโนมา"
+    },
+    {
+      "index": 5,
+      "name": "melasma",
+      "display_th": "ฝ้า"
+    },
+    {
+      "index": 6,
+      "name": "normal_skin",
+      "display_th": "ผิวปกติ"
+    },
+    {
+      "index": 7,
+      "name": "psoriasis",
+      "display_th": "สะเก็ดเงิน"
+    },
+    {
+      "index": 8,
+      "name": "ringworm",
+      "display_th": "กลาก"
+    },
+    {
+      "index": 9,
+      "name": "shingles",
+      "display_th": "งูสวัด"
+    },
+    {
+      "index": 10,
+      "name": "vitiligo",
+      "display_th": "ด่างขาว"
+    }
+  ]
+}

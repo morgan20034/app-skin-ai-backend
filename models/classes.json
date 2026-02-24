@@ -1,0 +1,86 @@
+{
+  "image_model": {
+    "num_classes": 11,
+    "class_names": [
+      "abscess",
+      "acne",
+      "eczema",
+      "herpes",
+      "melanoma",
+      "melasma",
+      "normal_skin",
+      "psoriasis",
+      "ringworm",
+      "shingles",
+      "vitiligo"
+    ],
+    "id_to_label": {
+      "0": "abscess",
+      "1": "acne",
+      "2": "eczema",
+      "3": "herpes",
+      "4": "melanoma",
+      "5": "melasma",
+      "6": "normal_skin",
+      "7": "psoriasis",
+      "8": "ringworm",
+      "9": "shingles",
+      "10": "vitiligo"
+    },
+    "label_to_id": {
+      "abscess": 0,
+      "acne": 1,
+      "eczema": 2,
+      "herpes": 3,
+      "melanoma": 4,
+      "melasma": 5,
+      "normal_skin": 6,
+      "psoriasis": 7,
+      "ringworm": 8,
+      "shingles": 9,
+      "vitiligo": 10
+    }
+  },
+
+  "checkbox_model": {
+    "num_classes": 10,
+    "class_names": [
+      "abscess",
+      "acne",
+      "eczema",
+      "herpes",
+      "melanoma",
+      "melasma",
+      "psoriasis",
+      "ringworm",
+      "shingles",
+      "vitiligo"
+    ],
+    "id_to_label": {
+      "0": "abscess",
+      "1": "acne",
+      "2": "eczema",
+      "3": "herpes",
+      "4": "melanoma",
+      "5": "melasma",
+      "6": "psoriasis",
+      "7": "ringworm",
+      "8": "shingles",
+      "9": "vitiligo"
+    },
+    "label_to_id": {
+      "abscess": 0,
+      "acne": 1,
+      "eczema": 2,
+      "herpes": 3,
+      "melanoma": 4,
+      "melasma": 5,
+      "psoriasis": 6,
+      "ringworm": 7,
+      "shingles": 8,
+      "vitiligo": 9
+    }
+  },
+
+  "note": "checkbox_model does NOT include normal_skin"
+}
